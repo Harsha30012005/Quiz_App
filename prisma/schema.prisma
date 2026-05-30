@@ -28,6 +28,7 @@ model User {
   name            String?
   role            Role           @default(USER)
   avatarUrl       String?
+  bio             String?
   level           Int            @default(1)
   totalXp         Int            @default(0)
   currentStreak   Int            @default(0)

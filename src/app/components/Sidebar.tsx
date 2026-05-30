@@ -10,7 +10,8 @@ import {
   Flame, 
   Zap, 
   BookOpen,
-  LayoutDashboard
+  LayoutDashboard,
+  Users
 } from 'lucide-react';
 import { logout } from '@/app/actions/auth';
 
@@ -23,6 +24,7 @@ interface SidebarProps {
     totalXp: number;
     currentStreak: number;
     avatarUrl?: string | null;
+    bio?: string | null;
   } | null;
 }
 
@@ -43,7 +45,8 @@ export default function Sidebar({ user }: SidebarProps) {
     ? [
         { name: 'Admin Dashboard', href: '/admin', icon: LayoutDashboard },
         { name: 'Manage Quizzes', href: '/admin/quizzes', icon: BookOpen },
-        { name: 'Manage Users', href: '/admin/users', icon: UserIcon },
+        { name: 'Manage Users', href: '/admin/users', icon: Users },
+        { name: 'Profile Settings', href: '/admin/profile', icon: UserIcon },
       ]
     : [
         { name: 'Path', href: '/path', icon: BookOpen },
@@ -122,7 +125,7 @@ export default function Sidebar({ user }: SidebarProps) {
 
         {/* User profile section at the bottom */}
         {user && (
-          <div className="border-t-2 border-gray-200 pt-4">
+          <div className="border-t-2 border-gray-255 pt-4">
             <div className="flex items-center gap-3 px-2 py-2">
               <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-duo-blue bg-blue-100 flex items-center justify-center font-bold text-duo-blue-dark">
                 {user.avatarUrl ? (

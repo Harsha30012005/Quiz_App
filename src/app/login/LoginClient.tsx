@@ -3,12 +3,18 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, ShieldCheck, ArrowRight, Zap, RefreshCw, AlertCircle } from 'lucide-react';
+import { Mail, ShieldCheck, ArrowRight, Zap, RefreshCw, AlertCircle, KeyRound, User, Shield } from 'lucide-react';
 import { sendOTP, verifyOTP } from '@/app/actions/auth';
+
+type LoginMode = 'user' | 'admin';
 
 export default function LoginClient() {
   const router = useRouter();
+  const [mode, setMode] = useState<LoginMode>('user');
+  
+  // Input fields
   const [email, setEmail] = useState('');
+  const [adminCode, setAdminCode] = useState('');
   const [otp, setOtp] = useState('');
   const [step, setStep] = useState<'email' | 'otp'>('email');
   
@@ -16,27 +22,28 @@ export default function LoginClient() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState<string | null>(null);
-  const [devOtp, setDevOtp] = useState<string | null>(null);
 
-  // Poll for the dev helper cookie or read the action response
+  // Send email OTP request
   const handleSendEmail = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
+
+    if (mode === 'admin' && !adminCode) {
+      setError('Please enter the Admin Security Code.');
+      return;
+    }
 
     setLoading(true);
     setError(null);
     setMessage(null);
 
     try {
-      const res = await sendOTP(email);
+      const res = await sendOTP(email, mode === 'admin', mode === 'admin' ? adminCode : undefined);
       if (res.success) {
         setStep('otp');
-        setMessage(res.message || null);
-        if (res.devCode) {
-          setDevOtp(res.devCode || null);
-        }
+        setMessage(res.message || 'OTP code sent successfully.');
       } else {
-        setError(res.error || 'Something went wrong.');
+        setError(res.error || 'Failed to send OTP code.');
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred.');
@@ -45,6 +52,7 @@ export default function LoginClient() {
     }
   };
 
+  // Submit OTP Verification
   const handleVerifyOTP = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!otp || otp.length !== 6) {
@@ -56,7 +64,7 @@ export default function LoginClient() {
     setError(null);
 
     try {
-      const res = await verifyOTP(email, otp);
+      const res = await verifyOTP(email, otp, mode === 'admin');
       if (res.success) {
         if (res.user?.role === 'ADMIN') {
           router.push('/admin');
@@ -96,6 +104,41 @@ export default function LoginClient() {
       </div>
 
       <div className="card-3d bg-white py-8 px-6 sm:px-10">
+        
+        {/* Toggle tabs for user vs admin login */}
+        {step === 'email' && (
+          <div className="flex bg-gray-100 rounded-xl p-1 mb-6 border border-gray-200/50">
+            <button
+              onClick={() => {
+                setMode('user');
+                setError(null);
+              }}
+              className={`flex-1 py-2 text-xs font-black rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                mode === 'user' 
+                  ? 'bg-white text-duo-blue shadow-sm border border-gray-250/20' 
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              <User className="h-3.5 w-3.5" />
+              User Access
+            </button>
+            <button
+              onClick={() => {
+                setMode('admin');
+                setError(null);
+              }}
+              className={`flex-1 py-2 text-xs font-black rounded-lg transition-all cursor-pointer flex items-center justify-center gap-1.5 ${
+                mode === 'admin' 
+                  ? 'bg-purple-50 text-purple-700 shadow-sm border border-purple-200/30' 
+                  : 'text-gray-400 hover:text-gray-600'
+              }`}
+            >
+              <Shield className="h-3.5 w-3.5" />
+              Admin Portal
+            </button>
+          </div>
+        )}
+
         <AnimatePresence mode="wait">
           {step === 'email' ? (
             <motion.div
@@ -106,10 +149,12 @@ export default function LoginClient() {
               transition={{ duration: 0.2 }}
             >
               <h3 className="text-xl font-extrabold text-gray-800 mb-2 text-center">
-                Welcome back!
+                {mode === 'admin' ? 'Administrator Login' : 'Welcome back!'}
               </h3>
-              <p className="text-sm font-semibold text-gray-400 mb-6 text-center">
-                Enter your email address to receive a one-time sign-in code.
+              <p className="text-xs font-bold text-gray-400 mb-6 text-center">
+                {mode === 'admin' 
+                  ? 'Verify your admin identity using security code & email verification.' 
+                  : 'Enter your email address to receive a one-time sign-in code.'}
               </p>
 
               {error && (
@@ -119,14 +164,14 @@ export default function LoginClient() {
                 </div>
               )}
 
-              <form onSubmit={handleSendEmail} className="space-y-6">
+              <form onSubmit={handleSendEmail} className="space-y-5">
                 <div>
-                  <label htmlFor="email" className="block text-sm font-extrabold text-gray-500 mb-2">
+                  <label htmlFor="email" className="block text-xs font-extrabold text-gray-400 uppercase tracking-wider mb-2">
                     Email Address
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
-                      <Mail className="h-5 w-5" />
+                      <Mail className="h-4.5 w-4.5" />
                     </div>
                     <input
                       id="email"
@@ -135,15 +180,44 @@ export default function LoginClient() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       placeholder="you@example.com"
-                      className="block w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl font-bold placeholder-gray-400 text-gray-800 focus:outline-none focus:border-duo-blue bg-gray-50/50 focus:bg-white transition-all text-base"
+                      className="block w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl font-bold placeholder-gray-400 text-gray-800 focus:outline-none focus:border-duo-blue bg-gray-50/50 focus:bg-white transition-all text-sm"
                     />
                   </div>
                 </div>
 
+                {/* Admin passkey verification */}
+                {mode === 'admin' && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    className="space-y-2 overflow-hidden"
+                  >
+                    <label htmlFor="adminCode" className="block text-xs font-extrabold text-gray-400 uppercase tracking-wider mb-2">
+                      Admin Security Code
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400">
+                        <KeyRound className="h-4.5 w-4.5" />
+                      </div>
+                      <input
+                        id="adminCode"
+                        type="password"
+                        required
+                        value={adminCode}
+                        onChange={(e) => setAdminCode(e.target.value)}
+                        placeholder="•••••••••"
+                        className="block w-full pl-10 pr-3 py-3 border-2 border-gray-200 rounded-xl font-bold placeholder-gray-400 text-gray-800 focus:outline-none focus:border-purple-400 bg-gray-50/50 focus:bg-white transition-all text-sm"
+                      />
+                    </div>
+                  </motion.div>
+                )}
+
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full btn-3d-green py-3.5 text-base flex justify-center items-center gap-2"
+                  className={`w-full py-3.5 text-base flex justify-center items-center gap-2 ${
+                    mode === 'admin' ? 'btn-3d-blue bg-purple-600 border-purple-700 active:border-purple-800' : 'btn-3d-green'
+                  }`}
                 >
                   {loading ? (
                     <RefreshCw className="h-5 w-5 animate-spin" />
@@ -181,21 +255,6 @@ export default function LoginClient() {
                 <div className="mb-4 flex items-center gap-2 rounded-xl border-2 border-red-100 bg-red-50 p-3 text-sm font-bold text-red-500">
                   <AlertCircle className="h-5 w-5 shrink-0" />
                   <span>{error}</span>
-                </div>
-              )}
-
-              {/* Dev Helper Code Display */}
-              {devOtp && (
-                <div className="mb-6 rounded-xl border-2 border-dashed border-duo-blue/30 bg-blue-50/30 p-3.5 text-center">
-                  <span className="text-xs font-extrabold text-duo-blue tracking-wide uppercase">
-                    Development OTP Helper
-                  </span>
-                  <div className="mt-1 text-2xl font-black tracking-widest text-duo-blue-dark">
-                    {devOtp}
-                  </div>
-                  <p className="mt-0.5 text-[10px] text-gray-400 font-medium">
-                    This box is displayed to simulate an email inbox check.
-                  </p>
                 </div>
               )}
 
@@ -240,11 +299,10 @@ export default function LoginClient() {
                     onClick={() => {
                       setStep('email');
                       setOtp('');
-                      setDevOtp(null);
                     }}
                     className="w-full btn-3d-white py-3 text-sm"
                   >
-                    Back to Email
+                    Back to Form
                   </button>
                 </div>
               </form>
