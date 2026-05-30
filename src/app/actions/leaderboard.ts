@@ -22,7 +22,7 @@ export async function getLeaderboardData() {
       },
     });
 
-    const overall = overallUsers.map((u, idx) => ({
+    const overall = overallUsers.map((u: any, idx: number) => ({
       ...u,
       rank: idx + 1,
       xp: u.totalXp,
