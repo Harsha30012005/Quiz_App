@@ -40,13 +40,13 @@ export async function getLeaderboardData() {
       take: 20,
     });
 
-    const weeklyUserIds = weeklyHistory.map(h => h.userId);
+    const weeklyUserIds = weeklyHistory.map((h: any) => h.userId);
     const weeklyUsers = await prisma.user.findMany({
       where: { id: { in: weeklyUserIds } },
       select: { id: true, name: true, avatarUrl: true, level: true },
     });
 
-    const weekly = weeklyHistory.map((h, idx) => {
+    const weekly = weeklyHistory.map((h: any, idx: number) => {
       const u = weeklyUsers.find(user => user.id === h.userId);
       return {
         id: h.userId,
@@ -60,10 +60,10 @@ export async function getLeaderboardData() {
 
     // If weekly list is shorter than 10 entries, pad it with top overall users who aren't listed
     if (weekly.length < 10) {
-      const weeklyIds = new Set(weekly.map(w => w.id));
-      const padUsers = overall.filter(o => !weeklyIds.has(o.id)).slice(0, 10 - weekly.length);
+      const weeklyIds = new Set(weekly.map((w: any) => w.id));
+      const padUsers = overall.filter((o: any) => !weeklyIds.has(o.id)).slice(0, 10 - weekly.length);
       
-      padUsers.forEach((p, idx) => {
+      padUsers.forEach((p: any, idx: number) => {
         weekly.push({
           id: p.id,
           name: p.name || 'Anonymous',
@@ -87,13 +87,13 @@ export async function getLeaderboardData() {
       take: 20,
     });
 
-    const monthlyUserIds = monthlyHistory.map(h => h.userId);
+    const monthlyUserIds = monthlyHistory.map((h: any) => h.userId);
     const monthlyUsers = await prisma.user.findMany({
       where: { id: { in: monthlyUserIds } },
       select: { id: true, name: true, avatarUrl: true, level: true },
     });
 
-    const monthly = monthlyHistory.map((h, idx) => {
+    const monthly = monthlyHistory.map((h: any, idx: number) => {
       const u = monthlyUsers.find(user => user.id === h.userId);
       return {
         id: h.userId,
@@ -107,7 +107,7 @@ export async function getLeaderboardData() {
 
     // Pad monthly if needed
     if (monthly.length < 10) {
-      const monthlyIds = new Set(monthly.map(m => m.id));
+      const monthlyIds = new Set(monthly.map((m: any) => m.id));
       const padUsers = overall.filter(o => !monthlyIds.has(o.id)).slice(0, 10 - monthly.length);
       
       padUsers.forEach((p) => {
