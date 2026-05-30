@@ -110,7 +110,7 @@ export async function getLeaderboardData() {
       const monthlyIds = new Set(monthly.map((m: any) => m.id));
       const padUsers = overall.filter((o: any) => !monthlyIds.has(o.id)).slice(0, 10 - monthly.length);
       
-      padUsers.forEach((p) => {
+      padUsers.forEach((p: any) => {
         monthly.push({
           id: p.id,
           name: p.name || 'Anonymous',
