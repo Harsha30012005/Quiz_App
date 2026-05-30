@@ -40,7 +40,7 @@ export async function getQuizPath() {
       }
     }
 
-    const pathNodes = quizzes.map((quiz) => {
+    const pathNodes = quizzes.map((quiz: any) => {
       const isCompleted = completedQuizIds.has(quiz.id);
       
       // Unlocked if first quiz OR if previous quiz is completed
@@ -94,7 +94,7 @@ export async function getQuizDetails(id: string) {
     if (!quiz || !quiz.published) return null;
 
     return quiz;
-  } catch (err) {
+  } catch (err: any) {
     console.error('[QUIZ ACTION] getQuizDetails error:', err);
     return null;
   }
