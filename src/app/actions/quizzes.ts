@@ -27,7 +27,7 @@ export async function getQuizPath() {
     });
 
     const completedQuizIds = new Set(
-      completedAttempts.filter((a: any) => a.score >= 80).map(a => a.quizId) // 80% passing grade
+      completedAttempts.filter((a: any) => a.score >= 80).map((a: any) => a.quizId) // 80% passing grade
     );
 
     // 3. Map status
