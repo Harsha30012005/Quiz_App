@@ -138,7 +138,7 @@ Open [http://localhost:3000](http://localhost:3000) in your web browser.
 * **Accessing Admin Area**: Go to `/login` and select the **Admin** tab.
 * **Email**: Enter any admin email.
 * **Verification**: Verify the OTP received in your email (or check terminal logs).
-* **Secret Code**: Enter the default administrative bypass key: `999999999` to enter.
+* **Secret Code**: Enter the default administrative bypass key: `contact_me` to enter.
 
 ---
 
