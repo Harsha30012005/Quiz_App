@@ -251,7 +251,7 @@ export async function getAdminAnalytics() {
       },
     });
 
-    const quizStats = quizzes.map((q) => ({
+    const quizStats = quizzes.map((q: any) => ({
       id: q.id,
       title: q.title,
       attemptsCount: q._count.attempts,
