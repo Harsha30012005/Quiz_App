@@ -1,26 +1,161 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f9fafb;
+  --foreground: #1f2937;
+  --duo-green: #58cc02;
+  --duo-green-dark: #46a302;
+  --duo-blue: #1cb0f6;
+  --duo-blue-dark: #1899d6;
+  --duo-orange: #ff9600;
+  --duo-orange-dark: #e68500;
+  --duo-red: #ff4b4b;
+  --duo-red-dark: #ea2b2b;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-duo-green: var(--duo-green);
+  --color-duo-green-dark: var(--duo-green-dark);
+  --color-duo-blue: var(--duo-blue);
+  --color-duo-blue-dark: var(--duo-blue-dark);
+  --color-duo-orange: var(--duo-orange);
+  --color-duo-orange-dark: var(--duo-orange-dark);
+  --color-duo-red: var(--duo-red);
+  --color-duo-red-dark: var(--duo-red-dark);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #fafafa;
+  color: #3c3c3c;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+}
+
+/* 3D buttons */
+.btn-3d-green {
+  background-color: var(--duo-green);
+  border-bottom: 4px solid var(--duo-green-dark);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-3d-green:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+.btn-3d-green:disabled {
+  background-color: #e5e5e5;
+  border-bottom-color: #ccc;
+  color: #afafaf;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-3d-blue {
+  background-color: var(--duo-blue);
+  border-bottom: 4px solid var(--duo-blue-dark);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-3d-blue:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+.btn-3d-blue:disabled {
+  background-color: #e5e5e5;
+  border-bottom-color: #ccc;
+  color: #afafaf;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-3d-orange {
+  background-color: var(--duo-orange);
+  border-bottom: 4px solid var(--duo-orange-dark);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-3d-orange:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.btn-3d-red {
+  background-color: var(--duo-red);
+  border-bottom: 4px solid var(--duo-red-dark);
+  color: white;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-3d-red:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+.btn-3d-white {
+  background-color: white;
+  border: 2px solid #e5e5e5;
+  border-bottom: 4px solid #e5e5e5;
+  color: #3c3c3c;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.1s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-3d-white:hover {
+  background-color: #f7f7f7;
+}
+.btn-3d-white:active {
+  transform: translateY(2px);
+  border-bottom-width: 2px;
+}
+
+/* 3D Cards */
+.card-3d {
+  background-color: white;
+  border: 2px solid #e5e5e5;
+  border-bottom: 6px solid #e5e5e5;
+  border-radius: 16px;
+}
+
+.card-3d-active {
+  border-color: var(--duo-blue);
+  border-bottom-color: var(--duo-blue-dark);
+}
+
+/* Progress path custom animations and SVG lines */
+.path-line {
+  stroke-dasharray: 8 8;
+  animation: pathFlow 30s linear infinite;
+}
+
+@keyframes pathFlow {
+  to {
+    stroke-dashoffset: -100;
+  }
 }

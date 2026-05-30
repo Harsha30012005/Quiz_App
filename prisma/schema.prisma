@@ -1,0 +1,166 @@
+datasource db {
+  provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Difficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum QuestionType {
+  SINGLE
+  MULTIPLE
+}
+
+model User {
+  id              String         @id @default(uuid())
+  email           String         @unique
+  name            String?
+  role            Role           @default(USER)
+  avatarUrl       String?
+  level           Int            @default(1)
+  totalXp         Int            @default(0)
+  currentStreak   Int            @default(0)
+  lastActiveDate  DateTime?
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+  
+  attempts        Attempt[]
+  achievements    Achievement[]
+  xpHistory       XPHistory[]
+  progress        UserProgress[]
+  leaderboardRanks Leaderboard[]
+  
+  @@index([totalXp(sort: Desc)])
+}
+
+model OTP {
+  id        String   @id @default(uuid())
+  email     String
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
+model Quiz {
+  id            String         @id @default(uuid())
+  title         String
+  description   String
+  category      String
+  difficulty    Difficulty     @default(EASY)
+  xpReward      Int            @default(50)
+  published     Boolean        @default(false)
+  sequenceOrder Int            @unique // Position in Duolingo progression path
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  
+  questions     Question[]
+  attempts      Attempt[]
+  progress      UserProgress[]
+}
+
+model Question {
+  id         String       @id @default(uuid())
+  quizId     String
+  quiz       Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  text       String
+  type       QuestionType @default(SINGLE)
+  xpReward   Int          @default(10)
+  options    String[]     // List of option texts
+  correct    String[]     // List of correct option texts
+  
+  answers    Answer[]
+}
+
+model Attempt {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        Quiz     @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  score       Int      // percentage correct
+  xpEarned    Int
+  completedAt DateTime @default(now())
+  duration    Int      // duration in seconds
+  
+  answers     Answer[]
+}
+
+model Answer {
+  id          String   @id @default(uuid())
+  attemptId   String
+  attempt     Attempt  @relation(fields: [attemptId], references: [id], onDelete: Cascade)
+  questionId  String
+  question    Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  selected    String[] // User's selected option texts
+  isCorrect   Boolean
+}
+
+model Badge {
+  id           String        @id @default(uuid())
+  name         String        @unique
+  description  String
+  iconUrl      String
+  requirement  String        // "FIRST_QUIZ", "STREAK_7", "MASTER_100", "XP_1000"
+  threshold    Int
+  
+  achievements Achievement[]
+}
+
+model Achievement {
+  id       String   @id @default(uuid())
+  userId   String
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  badgeId  String
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  earnedAt DateTime @default(now())
+  
+  @@unique([userId, badgeId])
+}
+
+model XPHistory {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  xpGained  Int
+  source    String   // "QUIZ_COMPLETED", "STREAK_BONUS", "INITIAL_SETUP"
+  createdAt DateTime @default(now())
+}
+
+model Leaderboard {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  xp        Int
+  period    String   // "WEEKLY" | "MONTHLY"
+  rank      Int
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, period])
+}
+
+model UserProgress {
+  id          String    @id @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quizId      String
+  quiz        Quiz      @relation(fields: [quizId], references: [id], onDelete: Cascade)
+  unlocked    Boolean   @default(false)
+  completed   Boolean   @default(false)
+  unlockedAt  DateTime?
+  completedAt DateTime?
+  
+  @@unique([userId, quizId])
+}
