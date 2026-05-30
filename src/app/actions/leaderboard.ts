@@ -47,7 +47,7 @@ export async function getLeaderboardData() {
     });
 
     const weekly = weeklyHistory.map((h: any, idx: number) => {
-      const u = weeklyUsers.find(user => user.id === h.userId);
+      const u = weeklyUsers.find((user: any) => user.id === h.userId);
       return {
         id: h.userId,
         name: u?.name || 'Anonymous',
@@ -94,7 +94,7 @@ export async function getLeaderboardData() {
     });
 
     const monthly = monthlyHistory.map((h: any, idx: number) => {
-      const u = monthlyUsers.find(user => user.id === h.userId);
+      const u = monthlyUsers.find((user: any) => user.id === h.userId);
       return {
         id: h.userId,
         name: u?.name || 'Anonymous',
@@ -108,7 +108,7 @@ export async function getLeaderboardData() {
     // Pad monthly if needed
     if (monthly.length < 10) {
       const monthlyIds = new Set(monthly.map((m: any) => m.id));
-      const padUsers = overall.filter(o => !monthlyIds.has(o.id)).slice(0, 10 - monthly.length);
+      const padUsers = overall.filter((o: any) => !monthlyIds.has(o.id)).slice(0, 10 - monthly.length);
       
       padUsers.forEach((p) => {
         monthly.push({
