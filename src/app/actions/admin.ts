@@ -220,9 +220,14 @@ export async function getAdminAnalytics() {
     
     // Average score calculation
     const attempts = await prisma.attempt.findMany({ select: { score: true } });
-    const averageScore = attempts.length 
-      ? Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / attempts.length)
-      : 0;
+    const averageScore = attempts.length
+  ? Math.round(
+      attempts.reduce(
+        (sum: number, item: { score: number }) => sum + item.score,
+        0
+      ) / attempts.length
+    )
+  : 0;
 
     // Daily active streaks / top performance (users with streak > 0)
     const activeStreaksCount = await prisma.user.count({
