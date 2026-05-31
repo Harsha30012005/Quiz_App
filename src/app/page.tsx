@@ -3,6 +3,8 @@ import { Zap, Trophy, Flame, ChevronRight, Award, Layers } from 'lucide-react';
 import { getCurrentUser } from '@/app/actions/auth';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function LandingPage() {
   const user = await getCurrentUser();
   

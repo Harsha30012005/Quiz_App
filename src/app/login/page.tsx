@@ -1,5 +1,3 @@
-'use server';
-
 import LoginClient from './LoginClient';
 
 export default async function LoginPage() {

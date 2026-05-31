@@ -2,6 +2,8 @@ import { getCurrentUser } from '@/app/actions/auth';
 import Sidebar from '@/app/components/Sidebar';
 import { redirect } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AdminLayout({
   children,
 }: {
