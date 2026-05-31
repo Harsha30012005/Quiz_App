@@ -181,7 +181,7 @@ export async function submitQuizAttempt(
     const attemptXp = isPass ? (quiz.xpReward + totalQuestionsXp) : totalQuestionsXp;
 
     // 3. Begin Transaction to update stats
-    const result = await prisma.$transaction(async (tx) => {
+    const result = await prisma.$transaction(async (tx: any) => {
       // Get fresh User record
       const dbUser = await tx.user.findUniqueOrThrow({ where: { id: sessionUser.id } });
 
