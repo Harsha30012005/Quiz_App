@@ -19,7 +19,7 @@
 ### 🔒 Passwordless Email OTP Authentication
 * **Frictionless Entry**: Zero passwords to remember. Users and Admins sign in by simply verifying a 6-digit OTP sent to their email.
 * **Dual-Delivery System**: If SMTP credentials are configured, codes deliver directly to the user's inbox using Nodemailer. In local sandbox environments, it falls back to printing the code directly to the server CLI console.
-* **Shielded Admin Login**: Admin entry requires a two-part security process: email OTP verification combined with a secret, pre-shared administrator bypass code (`999999999`).
+* **Shielded Admin Login**: Admin entry requires a two-part security process: email OTP verification combined with a secret, pre-shared administrator bypass code ("Contact_Me_If_U_Need_Code").
 
 ### 🗺️ The Learning Path (Duolingo Style)
 * **Progress Roadmaps**: Visual, interactive, and bouncing SVG-drawn path nodes showing your learning journey.
@@ -141,7 +141,7 @@ Open [http://localhost:3000](http://localhost:3000) in your web browser.
 * **Accessing Admin Area**: Go to `/login` and select the **Admin** tab.
 * **Email**: Enter any admin email.
 * **Verification**: Verify the OTP received in your email (or check terminal logs).
-* **Secret Code**: Enter the default administrative bypass key: `999999999` to enter.
+* **Secret Code**: Enter the default administrative bypass key: `Connect_Me` to enter.
 
 ---
 
