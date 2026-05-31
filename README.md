@@ -1,5 +1,7 @@
 # 🧠 MindQuest: Gamified Quiz Platform
 
+![MindQuest Banner](./public/banner.png)
+
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-000000?logo=vercel&logoColor=white)](https://quiz-52y1j4457-harsha30012005s-projects.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15.0-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
@@ -11,6 +13,44 @@
 **MindQuest** is a production-ready, highly interactive gamified quiz platform inspired by the engagement style of Duolingo and Duolingo Chess. It features linear path progression, passwordless email OTP authentication, streak retention algorithms, real-time level ups, and automated badges, alongside a strict dashboard separation between Admins and standard Users.
 
 🔗 **Live Deployment**: [quiz-52y1j4457-harsha30012005s-projects.vercel.app](https://quiz-52y1j4457-harsha30012005s-projects.vercel.app)
+
+---
+
+## 📐 Project Flow & Architecture
+
+Below is a flowchart mapping the authentication, authorization routing gates, and database interactions:
+
+```mermaid
+graph TD
+    %% Styling
+    classDef client fill:#1CB0F6,stroke:#1899D6,stroke-width:2px,color:#fff;
+    classDef server fill:#58CC02,stroke:#46A302,stroke-width:2px,color:#fff;
+    classDef db fill:#FF9600,stroke:#E68500,stroke-width:2px,color:#fff;
+    classDef secure fill:#FF4B4B,stroke:#D13636,stroke-width:2px,color:#fff;
+
+    %% Nodes
+    A[Landing Page]:::client -->|Sign In Request| B[Login / Role Selector]:::client
+    B -->|User Role: Enter Email| C[Generate 6-digit OTP]:::server
+    B -->|Admin Role: Email + Secret Passkey| D[Generate OTP & Verify Code 999999999]:::secure
+    
+    C -->|Send via SMTP / Log to Console| E[OTP Verification Drawer]:::client
+    D -->|Send via SMTP / Log to Console| E
+    
+    E -->|Verify & Create Session| F[Signed JWT Cookie Created]:::server
+    F -->|Secure Middleware Route Guard| G{Check Session Role}:::secure
+    
+    G -->|Role: USER| H[User Dashboard]:::client
+    G -->|Role: ADMIN| I[Admin Control Center]:::client
+    
+    H -->|Play learning map| J[Learning Path Node Map]:::client
+    J -->|Pass score >= 80%| K[Unlock Next Node / Earn XP / Streaks]:::server
+    K -->|Prisma adapter| L[(Neon Cloud PostgreSQL)]:::db
+    
+    I -->|Manage nodes & metrics| M[Quiz Builder CRUD & Analytics]:::server
+    M -->|Prisma adapter| L
+    
+    H -->|Competes| N[Weekly & Monthly Leaderboard]:::client
+```
 
 ---
 
