@@ -1,5 +1,6 @@
 # 🧠 MindQuest: Gamified Quiz Platform
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-000000?logo=vercel&logoColor=white)](https://quiz-52y1j4457-harsha30012005s-projects.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15.0-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.0-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
@@ -9,6 +10,8 @@
 
 **MindQuest** is a production-ready, highly interactive gamified quiz platform inspired by the engagement style of Duolingo and Duolingo Chess. It features linear path progression, passwordless email OTP authentication, streak retention algorithms, real-time level ups, and automated badges, alongside a strict dashboard separation between Admins and standard Users.
 
+🔗 **Live Deployment**: [quiz-52y1j4457-harsha30012005s-projects.vercel.app](https://quiz-52y1j4457-harsha30012005s-projects.vercel.app)
+
 ---
 
 ## ✨ Features
@@ -16,7 +19,7 @@
 ### 🔒 Passwordless Email OTP Authentication
 * **Frictionless Entry**: Zero passwords to remember. Users and Admins sign in by simply verifying a 6-digit OTP sent to their email.
 * **Dual-Delivery System**: If SMTP credentials are configured, codes deliver directly to the user's inbox using Nodemailer. In local sandbox environments, it falls back to printing the code directly to the server CLI console.
-* **Shielded Admin Login**: Admin entry requires a two-part security process: email OTP verification combined with a secret, pre-shared administrator bypass code ("contact_me_if_u_need_code").
+* **Shielded Admin Login**: Admin entry requires a two-part security process: email OTP verification combined with a secret, pre-shared administrator bypass code (`999999999`).
 
 ### 🗺️ The Learning Path (Duolingo Style)
 * **Progress Roadmaps**: Visual, interactive, and bouncing SVG-drawn path nodes showing your learning journey.
@@ -138,11 +141,11 @@ Open [http://localhost:3000](http://localhost:3000) in your web browser.
 * **Accessing Admin Area**: Go to `/login` and select the **Admin** tab.
 * **Email**: Enter any admin email.
 * **Verification**: Verify the OTP received in your email (or check terminal logs).
-* **Secret Code**: Enter the default administrative bypass key: `contact_me` to enter.
+* **Secret Code**: Enter the default administrative bypass key: `999999999` to enter.
 
 ---
 
-## 📦 Production Compiles
+## 📦 Production Compiles & Deployment
 
 Build the application for production:
 ```bash
@@ -153,6 +156,9 @@ Run the built server:
 ```bash
 npm run start
 ```
+
+### ☁️ Vercel Deployment Settings
+When deploying to Vercel, make sure to add your environment variables (`DATABASE_URL`, `JWT_SECRET`, `SMTP_*`) under **Project Settings > Environment Variables** before triggering your build.
 
 ---
 
