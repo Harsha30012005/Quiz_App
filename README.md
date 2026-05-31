@@ -31,7 +31,7 @@ graph TD
     %% Nodes
     A[Landing Page]:::client -->|Sign In Request| B[Login / Role Selector]:::client
     B -->|User Role: Enter Email| C[Generate 6-digit OTP]:::server
-    B -->|Admin Role: Email + Secret Passkey| D[Generate OTP & Verify Code Connect_Me]:::secure
+    B -->|Admin Role: Email + Secret Passkey| D[Generate OTP & Verify Code -> Connect_Me]:::secure
     
     C -->|Send via SMTP / Log to Console| E[OTP Verification Drawer]:::client
     D -->|Send via SMTP / Log to Console| E
