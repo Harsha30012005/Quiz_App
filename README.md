@@ -1,6 +1,6 @@
 # 🧠 MindQuest: Gamified Quiz Platform
 
-
+![MindQuest Banner](./public/banner.png)
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-000000?logo=vercel&logoColor=white)](https://quiz-52y1j4457-harsha30012005s-projects.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15.0-black?logo=next.js)](https://nextjs.org/)
