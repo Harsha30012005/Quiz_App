@@ -1,6 +1,6 @@
 # 🧠 MindQuest: Gamified Quiz Platform
 
-![MindQuest Banner](./public/banner.png)
+
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Vercel-000000?logo=vercel&logoColor=white)](https://quiz-52y1j4457-harsha30012005s-projects.vercel.app)
 [![Next.js](https://img.shields.io/badge/Next.js-15.0-black?logo=next.js)](https://nextjs.org/)
@@ -31,7 +31,7 @@ graph TD
     %% Nodes
     A[Landing Page]:::client -->|Sign In Request| B[Login / Role Selector]:::client
     B -->|User Role: Enter Email| C[Generate 6-digit OTP]:::server
-    B -->|Admin Role: Email + Secret Passkey| D[Generate OTP & Verify Code (Connect_Me)]:::secure
+    B -->|Admin Role: Email + Secret Passkey| D[Generate OTP & Verify Code 999999999]:::secure
     
     C -->|Send via SMTP / Log to Console| E[OTP Verification Drawer]:::client
     D -->|Send via SMTP / Log to Console| E
