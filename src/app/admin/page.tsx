@@ -107,7 +107,7 @@ export default async function AdminDashboardPage() {
                       </td>
                     </tr>
                   ) : (
-                    analytics.quizStats.map((quiz) => (
+                    analytics.quizStats.map((quiz: any) => (
                       <tr key={quiz.id}>
                         <td className="py-4 font-black text-gray-800">{quiz.title}</td>
                         <td className="py-4">{quiz.category}</td>
@@ -146,7 +146,7 @@ export default async function AdminDashboardPage() {
                     No attempts submitted yet.
                   </p>
                 ) : (
-                  analytics.recentAttempts.map((attempt) => (
+                  analytics.recentAttempts.map((attempt: any) => (
                     <li key={attempt.id} className="py-4">
                       <div className="flex items-center space-x-4">
                         <div className="relative h-9 w-9 overflow-hidden rounded-full border border-gray-200 bg-gray-50 flex items-center justify-center font-bold text-gray-600">
