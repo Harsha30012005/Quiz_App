@@ -108,13 +108,12 @@ export async function checkQuestion(questionId: string, selected: string[]) {
     });
     if (!question) return { isCorrect: false, correct: [] };
 
-    const correctSet = new Set(question.correct);
-    const selectedSet = new Set(selected);
+    const correctSet = new Set<string>(question.correct as string[]);
+    const selectedSet = new Set<string>(selected);
 
     const isCorrect = 
       correctSet.size === selectedSet.size && 
-      [...correctSet].every(opt => selectedSet.has(opt));
-
+      [...correctSet].every((opt: string) => selectedSet.has(opt));
     return { isCorrect, correct: question.correct };
   } catch (e) {
     return { isCorrect: false, correct: [] };
@@ -155,13 +154,14 @@ export async function submitQuizAttempt(
       const submitted = submittedAnswers.find(sa => sa.questionId === question.id);
       const selected = submitted ? submitted.selected : [];
       
-      const correctOptionsSet = new Set(question.correct);
-      const selectedOptionsSet = new Set(selected);
-      
-      const isCorrect = 
-        correctOptionsSet.size === selectedOptionsSet.size && 
-        [...correctOptionsSet].every(opt => selectedOptionsSet.has(opt));
+      const correctOptionsSet = new Set<string>(question.correct as string[]);
+      const selectedOptionsSet = new Set<string>(selected);
 
+      const isCorrect =
+        correctOptionsSet.size === selectedOptionsSet.size &&
+        [...correctOptionsSet].every((opt: string) =>
+          selectedOptionsSet.has(opt)
+          );
       if (isCorrect) {
         correctCount++;
         totalQuestionsXp += question.xpReward;
