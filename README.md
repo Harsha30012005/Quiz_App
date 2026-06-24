@@ -1,4 +1,4 @@
-# 🧠 MindQuest: Gamified Quiz Platform
+# 🧠 QuizGo: Gamified Quiz Platform
 
 
 
@@ -10,9 +10,9 @@
 [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon_Cloud-336791?logo=postgresql)](https://neon.tech/)
 [![Framer Motion](https://img.shields.io/badge/Framer_Motion-Interactive-FF69B4?logo=framer)](https://www.framer.com/motion/)
 
-**MindQuest** is a production-ready, highly interactive gamified quiz platform inspired by the engagement style of Duolingo and Duolingo Chess. It features linear path progression, passwordless email OTP authentication, streak retention algorithms, real-time level ups, and automated badges, alongside a strict dashboard separation between Admins and standard Users.
+**QuizGo** is a production-ready, highly interactive gamified quiz platform inspired by the engagement style of Duolingo and Duolingo Chess. It features linear path progression, passwordless email OTP authentication, streak retention algorithms, real-time level ups, and automated badges, alongside a strict dashboard separation between Admins and standard Users.
 
-🔗 **Live Deployment**: [quiz-52y1j4457-harsha30012005s-projects.vercel.app](https://quiz-52y1j4457-harsha30012005s-projects.vercel.app)
+🔗 **Live Deployment**: [quiz-1zdbn5t95-harsha30012005s-projects.vercel.app/](https://quiz-1zdbn5t95-harsha30012005s-projects.vercel.app/)
 
 ---
 
